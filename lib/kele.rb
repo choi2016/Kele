@@ -23,4 +23,22 @@
      response = self.class.get("https://www.bloc.io/api/v1/mentors/#{mentor_id}/student_availability", headers: { "authorization" => @auth_token })
      @mentor_availability = JSON.parse(response.body)
    end
+
+   def get_messages(page)
+     response = self.class.get("https://www.bloc.io/api/v1/message_threads?page=#{page}", headers: { "authorization" => @auth_token })
+     @messages = JSON.parse(response.body)
+   end
+
+   def create_message(recipient_id, subject, message)
+     response = self.class.post("https://www.bloc.io/api/v1/messages",
+     body: {
+       'sender': sender_email,
+       'recipient_id': recipient_id,
+       'subject': subject,
+       'stripped-text': message
+     },
+     header: { "authorization" => @auth_token })
+     puts response
+   end
+   
  end
